@@ -1,0 +1,54 @@
+Majorana fermion operators
+
+In[514]:= (*
+Chi(2i-1)=X(1) X(2) ... X(i-1) Z(i);
+Chi(2i)=X(1)X(2)... X(i-1)Y(i);
+{ Chi[i],Chi[j] }= 2 Delta_ij
+*)
+\[Sigma][0] = {{1, 0}, {0, 1}};
+\[Sigma][1] = {{0, 1}, {1, 0}};
+\[Sigma][2] = {{0, -I}, {I, 0}};
+\[Sigma][3] = {{1, 0}, {0, -1}};
+
+ProductZ[1] = \[Sigma][3];
+ProductZ[i_] := KroneckerProduct[ProductZ[i - 1], \[Sigma][3]];
+
+ProductI[1] = \[Sigma][0];
+ProductI[i_] := KroneckerProduct[ProductI[i - 1], \[Sigma][0]];
+
+ChiOdd[Ntot_, 1]  := KroneckerProduct[\[Sigma][1], ProductI[Ntot - 1]];
+ChiEven[Ntot_, 1] := KroneckerProduct[\[Sigma][2], ProductI[Ntot - 1]];
+
+ChiOdd[Ntot_, i_] := 
+  KroneckerProduct[ProductZ[i - 1], \[Sigma][1], ProductI[Ntot - i]];
+ChiEven[Ntot_, i_] := 
+  KroneckerProduct[ProductZ[i - 1], \[Sigma][2], ProductI[Ntot - i]];
+
+ChiOdd[Ntot_, Ntot_] := KroneckerProduct[ProductZ[Ntot - 1], \[Sigma][1]];
+ChiEven[Ntot_, Ntot_] := KroneckerProduct[ProductZ[Ntot - 1], \[Sigma][2]];
+Zchain[Ntot_, 1] := KroneckerProduct[\[Sigma][3], ProductI[Ntot - 1]];
+Xchain[Ntot_, 1] := KroneckerProduct[\[Sigma][3], ProductI[Ntot - 1]];
+Ychain[Ntot_, 1] := KroneckerProduct[\[Sigma][3], ProductI[Ntot - 1]];
+Zchain[Ntot_, i_] := 
+  KroneckerProduct[ProductI[i - 1], \[Sigma][3], ProductI[Ntot - i]];
+Xchain[Ntot_, i_] := 
+  KroneckerProduct[ProductI[i - 1], \[Sigma][1], ProductI[Ntot - i]];
+Ychain[Ntot_, i_] := 
+  KroneckerProduct[ProductI[i - 1], \[Sigma][2], ProductI[Ntot - i]];
+Zchain[Ntot_, Ntot_] := KroneckerProduct[ProductI[Ntot - 1], \[Sigma][3]];
+Xchain[Ntot_, Ntot_] := KroneckerProduct[ProductI[Ntot - 1], \[Sigma][1]];
+Ychain[Ntot_, Ntot_] := KroneckerProduct[ProductI[Ntot - 1], \[Sigma][2]];
+
+In[363]:= Zchain[4, 1]
+
+Out[363]= {{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0, 0, 0, 0,
+   0, 0, 0, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0,
+   0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 0, 0, 0, 
+  0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 
+  0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+   0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0}, {0, 
+  0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 
+  0, -1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 
+  0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0,
+   0, 0, 0, 0, 0, 0, -1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+  0, -1, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}}
